@@ -1,0 +1,22 @@
+version: '3'
+services:
+
+  ### build nginx LB ###
+  web-test:
+    build:
+      context: ./config
+      dockerfile: Dockerfile
+    hostname: web-test
+    privileged: true
+    container_name: web-test
+    ports:
+      - ["8080:8080"]
+    volumes:
+      - "./src:/project"
+      - "./config/entrypoint.sh:/root/entrypoint.sh"
+      - "/project-binding/vol_bind_individual/project-development/admin-logs:/root/project-binding/admin-logs"
+      - "/project-binding/vol_bind_sharing/cred:/root/.cred"
+      - "/project-binding/vol_bind_sharing/elastic-agent:/root/.elastic-agent"
+    networks:
+      - be_ebilling_pwc_network
+    entrypoint: bash /root/entrypoint.sh {}

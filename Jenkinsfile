@@ -49,7 +49,7 @@ pipeline {
             steps{
                 script{
                     withCredentials([string(credentialsId: 'ssh-to-server', variable: 'password')]) {
-                        sh 'sshpass -p "$password" ssh -o "StrictHostKeyChecking no" -t kbun@$HOST "docker run --name testing -d $registry:$BUILD_NUMBER"'
+                        sh 'sshpass -p "$password" ssh -o "StrictHostKeyChecking no" -t kbun@$HOST "docker run --name testing -d -p 8080:8080 $registry:$BUILD_NUMBER"'
                     }
                 }
             }
